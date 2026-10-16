@@ -31,7 +31,7 @@ public class Installment {
     @JoinColumn(name = "loan_id")
     private Loan loan;
 
-    @Column(nullable = false)
+    @Column(name = "installment_no", nullable = false)
     private int number;
 
     @Column(name = "due_date", nullable = false)

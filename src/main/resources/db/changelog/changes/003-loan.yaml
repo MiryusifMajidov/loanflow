@@ -41,7 +41,7 @@ databaseChangeLog:
                   name: loan_id
                   type: BIGINT
                   constraints: { nullable: false, foreignKeyName: fk_installment_loan, references: loan(id) }
-              - column: { name: number, type: INT, constraints: { nullable: false } }
+              - column: { name: installment_no, type: INT, constraints: { nullable: false } }
               - column: { name: due_date, type: DATE, constraints: { nullable: false } }
               - column: { name: principal_due, type: "DECIMAL(19,2)", constraints: { nullable: false } }
               - column: { name: interest_due, type: "DECIMAL(19,2)", constraints: { nullable: false } }
@@ -54,7 +54,7 @@ databaseChangeLog:
               - column: { name: paid_on, type: DATE }
         - addUniqueConstraint:
             tableName: installment
-            columnNames: loan_id, number
+            columnNames: loan_id, installment_no
             constraintName: uq_installment_number
         - createTable:
             tableName: repayment
