@@ -1,0 +1,36 @@
+{
+  "mappings": [
+    {
+      "priority": 1,
+      "request": { "method": "GET", "url": "/reports/5ZK7M2P" },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "fin": "5ZK7M2P", "score": 770, "activeLoans": 1, "monthlyObligations": 120.00, "delinquenciesLast12Months": 0 }
+      }
+    },
+    {
+      "priority": 1,
+      "request": { "method": "GET", "url": "/reports/7QW2E9R" },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "fin": "7QW2E9R", "score": 630, "activeLoans": 2, "monthlyObligations": 350.00, "delinquenciesLast12Months": 1 }
+      }
+    },
+    {
+      "priority": 1,
+      "request": { "method": "GET", "url": "/reports/3ZX4C5V" },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "fin": "3ZX4C5V", "score": 520, "activeLoans": 4, "monthlyObligations": 900.00, "delinquenciesLast12Months": 3 }
+      }
+    },
+    {
+      "priority": 10,
+      "request": { "method": "GET", "urlPattern": "/reports/.*" },
+      "response": { "status": 404 }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "realm": "loanflow",
+  "enabled": true,
+  "accessTokenLifespan": 900,
+  "roles": {
+    "realm": [
+      { "name": "CUSTOMER" },
+      { "name": "LOAN_OFFICER" },
+      { "name": "RISK_MANAGER" },
+      { "name": "ADMIN" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "loanflow-api",
+      "name": "Loanflow API",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "leyla",
+      "enabled": true,
+      "email": "leyla@example.com",
+      "emailVerified": true,
+      "firstName": "Leyla",
+      "lastName": "Mammadova",
+      "credentials": [{ "type": "password", "value": "leyla123", "temporary": false }],
+      "realmRoles": ["CUSTOMER"]
+    },
+    {
+      "username": "tural",
+      "enabled": true,
+      "email": "tural@example.com",
+      "emailVerified": true,
+      "firstName": "Tural",
+      "lastName": "Guliyev",
+      "credentials": [{ "type": "password", "value": "tural123", "temporary": false }],
+      "realmRoles": ["CUSTOMER"]
+    },
+    {
+      "username": "officer",
+      "enabled": true,
+      "email": "officer@loanflow.local",
+      "emailVerified": true,
+      "firstName": "Rashad",
+      "lastName": "Aliyev",
+      "credentials": [{ "type": "password", "value": "officer123", "temporary": false }],
+      "realmRoles": ["LOAN_OFFICER"]
+    },
+    {
+      "username": "risk",
+      "enabled": true,
+      "email": "risk@loanflow.local",
+      "emailVerified": true,
+      "firstName": "Aysel",
+      "lastName": "Karimova",
+      "credentials": [{ "type": "password", "value": "risk123", "temporary": false }],
+      "realmRoles": ["RISK_MANAGER"]
+    }
+  ]
+}
