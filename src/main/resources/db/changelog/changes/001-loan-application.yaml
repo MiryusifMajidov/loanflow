@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-loan-application
+      author: yusif
+      changes:
+        - createSequence:
+            sequenceName: loan_application_seq
+            startValue: 1000
+            incrementBy: 20
+        - createTable:
+            tableName: loan_application
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { primaryKey: true, primaryKeyName: pk_loan_application } }
+              - column: { name: applicant_id, type: VARCHAR(36), constraints: { nullable: false } }
+              - column: { name: applicant_name, type: VARCHAR(255), constraints: { nullable: false } }
+              - column: { name: fin_code, type: VARCHAR(7), constraints: { nullable: false } }
+              - column: { name: amount, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: term_months, type: INT, constraints: { nullable: false } }
+              - column: { name: purpose, type: VARCHAR(20), constraints: { nullable: false } }
+              - column: { name: repayment_type, type: VARCHAR(20), constraints: { nullable: false } }
+              - column: { name: monthly_income, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: monthly_debt, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: status, type: VARCHAR(20), constraints: { nullable: false } }
+              - column: { name: credit_score, type: INT }
+              - column: { name: debt_to_income, type: "DECIMAL(6,4)" }
+              - column: { name: annual_rate, type: "DECIMAL(7,4)" }
+              - column: { name: decision_reason, type: VARCHAR(500) }
+              - column: { name: decided_by, type: VARCHAR(100) }
+              - column: { name: decided_at, type: TIMESTAMP WITH TIME ZONE }
+              - column: { name: created_at, type: TIMESTAMP WITH TIME ZONE, constraints: { nullable: false } }
+              - column: { name: version, type: BIGINT, constraints: { nullable: false } }
+        - createIndex:
+            tableName: loan_application
+            indexName: ix_application_applicant
+            columns:
+              - column: { name: applicant_id }
+        - createIndex:
+            tableName: loan_application
+            indexName: ix_application_status
+            columns:
+              - column: { name: status }
+              - column: { name: created_at }

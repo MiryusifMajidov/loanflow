@@ -1,4 +1,7 @@
 databaseChangeLog:
   - include:
+      file: changes/001-loan-application.yaml
+      relativeToChangelogFile: true
+  - include:
       file: changes/004-audit.yaml
       relativeToChangelogFile: true
