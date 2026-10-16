@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-scoring-report
+      author: yusif
+      changes:
+        - createSequence:
+            sequenceName: scoring_report_seq
+            startValue: 1
+            incrementBy: 20
+        - createTable:
+            tableName: scoring_report
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { primaryKey: true, primaryKeyName: pk_scoring_report } }
+              - column:
+                  name: application_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_scoring_application
+                    references: loan_application(id)
+              - column: { name: bureau_score, type: INT }
+              - column: { name: existing_debt, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: delinquencies, type: INT, constraints: { nullable: false } }
+              - column: { name: new_payment, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: debt_to_income, type: "DECIMAL(6,4)", constraints: { nullable: false } }
+              - column: { name: decision, type: VARCHAR(20), constraints: { nullable: false } }
+              - column: { name: reasons, type: VARCHAR(500) }
+              - column: { name: annual_rate, type: "DECIMAL(7,4)", constraints: { nullable: false } }
+              - column: { name: created_at, type: TIMESTAMP WITH TIME ZONE, constraints: { nullable: false } }
+        - createIndex:
+            tableName: scoring_report
+            indexName: ix_scoring_application
+            columns:
+              - column: { name: application_id }
