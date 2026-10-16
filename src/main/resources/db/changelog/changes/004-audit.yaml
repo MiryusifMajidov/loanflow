@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-audit
+      author: yusif
+      changes:
+        - createSequence: { sequenceName: audit_revision_seq, startValue: 1, incrementBy: 1 }
+        - createTable:
+            tableName: audit_revision
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { primaryKey: true, primaryKeyName: pk_audit_revision } }
+              - column: { name: revision_time, type: BIGINT, constraints: { nullable: false } }
+              - column: { name: username, type: VARCHAR(100) }
+        - createTable:
+            tableName: loan_application_aud
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { nullable: false } }
+              - column:
+                  name: rev
+                  type: BIGINT
+                  constraints: { nullable: false, foreignKeyName: fk_application_aud_rev, references: audit_revision(id) }
+              - column: { name: revtype, type: SMALLINT }
+              - column: { name: applicant_id, type: VARCHAR(36) }
+              - column: { name: applicant_name, type: VARCHAR(255) }
+              - column: { name: fin_code, type: VARCHAR(7) }
+              - column: { name: amount, type: "DECIMAL(19,2)" }
+              - column: { name: term_months, type: INT }
+              - column: { name: purpose, type: VARCHAR(20) }
+              - column: { name: repayment_type, type: VARCHAR(20) }
+              - column: { name: status, type: VARCHAR(20) }
+              - column: { name: credit_score, type: INT }
+              - column: { name: debt_to_income, type: "DECIMAL(6,4)" }
+              - column: { name: annual_rate, type: "DECIMAL(7,4)" }
+              - column: { name: decision_reason, type: VARCHAR(500) }
+              - column: { name: decided_by, type: VARCHAR(100) }
+              - column: { name: decided_at, type: TIMESTAMP WITH TIME ZONE }
+        - addPrimaryKey:
+            tableName: loan_application_aud
+            columnNames: id, rev
+            constraintName: pk_loan_application_aud
+        - createTable:
+            tableName: loan_aud
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { nullable: false } }
+              - column:
+                  name: rev
+                  type: BIGINT
+                  constraints: { nullable: false, foreignKeyName: fk_loan_aud_rev, references: audit_revision(id) }
+              - column: { name: revtype, type: SMALLINT }
+              - column: { name: status, type: VARCHAR(30) }
+              - column: { name: disbursed_at, type: TIMESTAMP WITH TIME ZONE }
+              - column: { name: closed_at, type: TIMESTAMP WITH TIME ZONE }
+        - addPrimaryKey:
+            tableName: loan_aud
+            columnNames: id, rev
+            constraintName: pk_loan_aud

@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: loanflow
+  datasource:
+    url: ${DB_URL:jdbc:oracle:thin:@localhost:1521/FREEPDB1}
+    username: ${DB_USER:loanflow}
+    password: ${DB_PASSWORD:loanflow}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:guest}
+    password: ${RABBIT_PASSWORD:guest}
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    overwrite-existing-jobs: true
+    properties:
+      org.quartz.scheduler.instanceId: AUTO
+      org.quartz.jobStore.isClustered: true
+      org.quartz.jobStore.tablePrefix: QRTZ_
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER:http://localhost:8180/realms/loanflow}
+          jwk-set-uri: ${KEYCLOAK_JWKS:http://localhost:8180/realms/loanflow/protocol/openid-connect/certs}
+  modulith:
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: true
+      republish-outstanding-events-on-restart: true
+
+server:
+  port: ${PORT:8080}
+
+loanflow:
+  bureau:
+    base-url: ${BUREAU_URL:http://localhost:8090}
+    connect-timeout: 2s
+    read-timeout: 5s
+  loans:
+    daily-penalty-rate: 0.001
+    default-after-days: 90
+    overdue-cron: "0 0 1 * * ?"
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,modulith
