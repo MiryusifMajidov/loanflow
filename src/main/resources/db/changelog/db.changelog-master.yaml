@@ -6,5 +6,11 @@ databaseChangeLog:
       file: changes/002-scoring-report.yaml
       relativeToChangelogFile: true
   - include:
+      file: changes/003-loan.yaml
+      relativeToChangelogFile: true
+  - include:
       file: changes/004-audit.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/005-quartz.yaml
       relativeToChangelogFile: true

@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-quartz-oracle
+      author: yusif
+      dbms: oracle
+      changes:
+        - sqlFile:
+            path: ../sql/quartz-oracle.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 005-quartz-h2
+      author: yusif
+      dbms: h2
+      changes:
+        - sqlFile:
+            path: ../sql/quartz-h2.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

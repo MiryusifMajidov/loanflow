@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-loan
+      author: yusif
+      changes:
+        - createSequence: { sequenceName: loan_seq, startValue: 1, incrementBy: 20 }
+        - createSequence: { sequenceName: installment_seq, startValue: 1, incrementBy: 50 }
+        - createSequence: { sequenceName: repayment_seq, startValue: 1, incrementBy: 20 }
+        - createTable:
+            tableName: loan
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { primaryKey: true, primaryKeyName: pk_loan } }
+              - column: { name: application_id, type: BIGINT, constraints: { nullable: false, unique: true, uniqueConstraintName: uq_loan_application } }
+              - column: { name: borrower_id, type: VARCHAR(36), constraints: { nullable: false } }
+              - column: { name: borrower_name, type: VARCHAR(255), constraints: { nullable: false } }
+              - column: { name: principal, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: annual_rate, type: "DECIMAL(7,4)", constraints: { nullable: false } }
+              - column: { name: term_months, type: INT, constraints: { nullable: false } }
+              - column: { name: repayment_type, type: VARCHAR(20), constraints: { nullable: false } }
+              - column: { name: status, type: VARCHAR(30), constraints: { nullable: false } }
+              - column: { name: disbursed_at, type: TIMESTAMP WITH TIME ZONE }
+              - column: { name: first_due_date, type: DATE }
+              - column: { name: closed_at, type: TIMESTAMP WITH TIME ZONE }
+              - column: { name: created_at, type: TIMESTAMP WITH TIME ZONE, constraints: { nullable: false } }
+              - column: { name: version, type: BIGINT, constraints: { nullable: false } }
+        - createIndex:
+            tableName: loan
+            indexName: ix_loan_borrower
+            columns:
+              - column: { name: borrower_id }
+        - createIndex:
+            tableName: loan
+            indexName: ix_loan_status
+            columns:
+              - column: { name: status }
+        - createTable:
+            tableName: installment
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { primaryKey: true, primaryKeyName: pk_installment } }
+              - column:
+                  name: loan_id
+                  type: BIGINT
+                  constraints: { nullable: false, foreignKeyName: fk_installment_loan, references: loan(id) }
+              - column: { name: number, type: INT, constraints: { nullable: false } }
+              - column: { name: due_date, type: DATE, constraints: { nullable: false } }
+              - column: { name: principal_due, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: interest_due, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: penalty_due, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: principal_paid, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: interest_paid, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: penalty_paid, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: status, type: VARCHAR(20), constraints: { nullable: false } }
+              - column: { name: penalty_accrued_until, type: DATE }
+              - column: { name: paid_on, type: DATE }
+        - addUniqueConstraint:
+            tableName: installment
+            columnNames: loan_id, number
+            constraintName: uq_installment_number
+        - createTable:
+            tableName: repayment
+            columns:
+              - column: { name: id, type: BIGINT, constraints: { primaryKey: true, primaryKeyName: pk_repayment } }
+              - column:
+                  name: loan_id
+                  type: BIGINT
+                  constraints: { nullable: false, foreignKeyName: fk_repayment_loan, references: loan(id) }
+              - column: { name: amount, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: principal_part, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: interest_part, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: penalty_part, type: "DECIMAL(19,2)", constraints: { nullable: false } }
+              - column: { name: paid_by, type: VARCHAR(100), constraints: { nullable: false } }
+              - column: { name: paid_at, type: TIMESTAMP WITH TIME ZONE, constraints: { nullable: false } }
+        - createIndex:
+            tableName: repayment
+            indexName: ix_repayment_loan
+            columns:
+              - column: { name: loan_id }
